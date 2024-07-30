@@ -1,6 +1,6 @@
 "use client";
 import { useSession } from "next-auth/react";
-import Authenticated from "../../components/home/Authenticated";
+import Authenticated from "../../components/home/Authenticated/Authenticated";
 import Unauthenticated from "../../components/home/Unauthenticated";
 
 export default function Home() {
