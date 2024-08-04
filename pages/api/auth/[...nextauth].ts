@@ -19,8 +19,7 @@ export const authOptions: NextAuthOptions = {
   },
   callbacks: {
     async session({ session, token }: { session: any; token: any }) {
-      session.accessToken = token.accessToken;
-      session.user.id = token.id;
+     session.user = token;
       return session;
     },
     async jwt({
@@ -29,22 +28,28 @@ export const authOptions: NextAuthOptions = {
       account,
       profile,
       isNewUser,
+      trigger,
+      session,
     }: {
       token: JWT;
       user?: User;
       account?: Account | null;
-      profile?: Profile;
+      profile?: any;
       isNewUser?: boolean;
+      trigger?: "update" | "signIn" | "signUp";
+      session?: any;
     }) {
       if (account) {
         token.accessToken = account.access_token;
       }
-
       if (profile) {
-
-        token.id = (profile as any).id || user?.id;
+        token.id = profile.id || user?.id;
+      }
+      if (trigger === "update") {
+        return {...token, ...session.user}
       }
       return token;
+      
     },
   },
 };

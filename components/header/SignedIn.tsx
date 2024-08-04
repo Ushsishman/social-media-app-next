@@ -1,11 +1,17 @@
 "use client";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
+import Link from "next/link";
 
 const SignedIn = () => {
+  const { data: session } = useSession();
   return (
     <ul className="flex flex-row space-x-4">
       <li>
-        <p className="cursor-pointer hover:text-gray-400">Profile</p>
+        <Link href={`/profile/${session?.user.id}`}>
+          <button className="cursor-pointer hover:text-gray-400">
+            Profile
+          </button>
+        </Link>
       </li>
       <li>
         <button className="hover:text-gray-400" onClick={() => signOut()}>

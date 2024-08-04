@@ -4,9 +4,8 @@ export type FirebaseUser = {
   email: string | null;
 };
 
-export interface PostsState {
-  posts: any[];
-  imageUrls: { [key: string]: string };
+export type PostsState = {
+  posts: Post[];
 }
 
 export type Post = {
@@ -17,3 +16,17 @@ export type Post = {
   fileName?: string | null;
 };
 
+export type UserProfile = {
+  email: string;
+  emailVerified: null;
+  image: string;
+  name: string;
+  follows: string[];
+  followers: string[];
+}
+
+export type UpdateProfile = {
+  email: string;
+  name: string;
+  image: string;
+}

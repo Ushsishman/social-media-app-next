@@ -4,18 +4,29 @@ import {
   setDoc,
   updateDoc,
   arrayUnion,
-  getDocs,
   getDoc,
   collection,
-  addDoc,
   arrayRemove,
   onSnapshot,
-  query,
-  where,
+  deleteDoc,
 } from "firebase/firestore";
 import { ref, getDownloadURL } from "firebase/storage";
-import { Post } from "./types";
+import { Post,UpdateProfile } from "./types";
 import { storage } from "../firebaseConfig";
+
+const setFollowFollowerArray = async (userId: string) => {
+  const userRef = doc(fireStoreDatabase, `users/${userId}`);
+  const userSnap = await getDoc(userRef);
+  const userData = userSnap.data();
+  if (userData) {
+    if (!userData.followers && !userData.follows) {
+      await updateDoc(userRef, {
+        followers: [],
+        follows: [],
+      });
+    }
+  }
+};
 
 const writeNewPost = async ({
   userId,
@@ -42,7 +53,7 @@ const writeNewPost = async ({
   }
 };
 
-const getPosts = (setPosts: Function) => {
+const getPosts = ({ dispatch, setPosts }: { dispatch: any; setPosts: any }) => {
   const unsubscribe = onSnapshot(
     collection(fireStoreDatabase, "posts"),
     (querySnapshot) => {
@@ -52,7 +63,7 @@ const getPosts = (setPosts: Function) => {
         postArray.push(doc.data());
       });
 
-      setPosts(postArray);
+      dispatch(setPosts(postArray));
     },
     (error) => {
       console.log(error);
@@ -141,6 +152,88 @@ const unLikePost = async (userId: string | undefined, postId: string) => {
   }
 };
 
+const getUser = async (userId: string, setUser: Function) => {
+  const userRef = doc(fireStoreDatabase, `users/${userId}`);
+  const userSnap = await getDoc(userRef);
+  if (userSnap.exists()) {
+    const userData = userSnap.data();
+    setUser(userData);
+  } else {
+    setUser(null);
+  }
+};
+
+const followUser = async (profileId: string, followerId: string) => {
+  const profileRef = doc(fireStoreDatabase, `users/${profileId}`);
+  const followerRef = doc(fireStoreDatabase, `users/${followerId}`);
+
+  await updateDoc(profileRef, {
+    followers: arrayUnion(followerId),
+  });
+
+  await updateDoc(followerRef, {
+    follows: arrayUnion(profileId),
+  });
+};
+
+const unFollowUser = async (profileId: string, followerId: string) => {
+  const profileRef = doc(fireStoreDatabase, `users/${profileId}`);
+  const followerRef = doc(fireStoreDatabase, `users/${followerId}`);
+
+  await updateDoc(profileRef, {
+    followers: arrayRemove(followerId),
+  });
+
+  await updateDoc(followerRef, {
+    follows: arrayRemove(profileId),
+  });
+};
+
+const checkIfFollowing = async (
+  userId: string,
+  profileId: string,
+  setIsFollowing: Function,
+) => {
+  const userDocRef = doc(fireStoreDatabase, "users", userId);
+
+  const unsubscribe = onSnapshot(userDocRef, (docSnapshot) => {
+    if (docSnapshot.exists()) {
+      const userData = docSnapshot.data();
+      setIsFollowing(userData.follows.includes(profileId));
+    } else {
+      setIsFollowing(false);
+    }
+  });
+
+  return () => unsubscribe();
+};
+
+const deleteUser = async (
+  userId: string,
+  posts: object[],
+  signOut: Function,
+) => {
+  const userRef = doc(fireStoreDatabase, `users/${userId}`);
+  await deleteDoc(userRef);
+
+  posts.map(async (post: any) => {
+    if (userId === post.userId) {
+      const postRef = doc(fireStoreDatabase, `posts/${post.postId}`);
+      await deleteDoc(postRef).finally(signOut());
+    }
+  });
+};
+
+const updateUser = async (userId: string, updatedData: UpdateProfile) => {
+  const userRef = doc(fireStoreDatabase, `users/${userId}`);
+  
+  await updateDoc(userRef, {
+    name: updatedData.name,
+    email: updatedData.email,
+    image: updatedData.image,
+  })
+};
+
 export {
   writeNewPost,
   getPosts,
@@ -150,4 +243,11 @@ export {
   getImage,
   likePost,
   unLikePost,
+  getUser,
+  followUser,
+  setFollowFollowerArray,
+  checkIfFollowing,
+  unFollowUser,
+  deleteUser,
+  updateUser,
 };

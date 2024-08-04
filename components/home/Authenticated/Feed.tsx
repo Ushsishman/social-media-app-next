@@ -1,13 +1,17 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { getPosts } from "../../../utilities/utility";
 import Post from "./Post";
+import { setPosts } from "../../../lib/features/posts/postSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState, AppDispatch } from "../../../lib/store";
 
 const Feed = () => {
-  const [posts, setPosts] = useState<object[]>([]);
+  const posts = useSelector((state: RootState) => state.posts.posts);
+  const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
-    getPosts(setPosts);
+    getPosts({ dispatch, setPosts });
   }, []);
 
   return (

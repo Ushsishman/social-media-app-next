@@ -1,4 +1,5 @@
 "use client";
+
 import { useState, useEffect } from "react";
 import {
   writeComment,
@@ -14,6 +15,7 @@ import { MdDeleteForever } from "react-icons/md";
 import { GoHeart, GoHeartFill } from "react-icons/go";
 import Comment from "./Comment";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 
 const Post = ({ post }: any) => {
   const [imgSrc, setImgSrc] = useState("");
@@ -51,8 +53,9 @@ const Post = ({ post }: any) => {
   return (
     <div className="bg-white shadow-md rounded-lg p-6 mb-4 max-w-md mx-auto flex flex-col space-y-12">
       <div className="bg-gray-300 h-12 flex items-center justify-between px-3">
-        <p className="text-gray-700 font-bold text-xl">{post.username}</p>
-
+        <Link href={`/profile/${post.userId}`}>
+          <p className="text-gray-700 font-bold text-xl">{post.username}</p>
+        </Link>
         {session.data?.user.id == post.userId && (
           <button
             onClick={async () =>
