@@ -60,7 +60,7 @@ const CreatePost = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="w-1/2 flex flex-col mt-8 border-2 border-black/15">
+      className="w-full md:w-1/2 flex flex-col mt-8 border-2 border-black/15">
       <div className="bg-[#1E293B] min-h-12 flex items-center text-white">
         <div className="ml-4 my-4">
           {session?.user.picture ? (

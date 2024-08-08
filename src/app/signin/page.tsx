@@ -12,7 +12,9 @@ const Signin = () => {
   if (status === "unauthenticated") {
     return (
       <div className="flex min-h-screen h-full flex-col items-center justify-center px-24 space-y-12 bg-slate-200">
-        <h1 className="text-3xl font-semibold">Create account with Google</h1>
+        <h1 className="text-3xl font-semibold text-center">
+          Create account with Google
+        </h1>
         <button
           className="btn bg-blue-500 text-black font-medium text-lg p-4 rounded"
           onClick={() => {

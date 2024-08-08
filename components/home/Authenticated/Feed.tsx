@@ -18,7 +18,7 @@ const Feed = () => {
   }, []);
 
   return (
-    <div className="min-h-screen w-1/2 bg-[#1E293B] py-8">
+    <div className="min-h-screen w-full md:w-1/2 bg-[#1E293B] py-8">
       <h1 className="text-3xl font-bold text-white text-center mb-6">Feed</h1>
       {posts.length > 0 ? (
         posts.map((post) => <Post key={post.timestamp} post={post} />)
