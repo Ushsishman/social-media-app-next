@@ -27,15 +27,17 @@ Social media app is a modern social media platform built with Next.js, React, Ta
    ```sh
    git clone https://github.com/Ushsishman/social-media-app-next.git
    
-2. Set up Firebase:
+2. **Set up Firebase**:
    - Create a Firebase project at Firebase Console.
    - Add your Firebase configuration to the .env.local file:
+     
      NEXT_PUBLIC_FIREBASE_API_KEY=your-api-key
      NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your-auth-domain
      NEXT_PUBLIC_FIREBASE_PROJECT_ID=your-project-id
      NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your-storage-bucket
      NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your-messaging-sender-id
      NEXT_PUBLIC_FIREBASE_APP_ID=your-app-id
-3. Run the development server: npm run dev:
+     
+3. **Run the development server**:
    npm run dev      
    
