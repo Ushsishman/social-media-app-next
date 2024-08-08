@@ -23,7 +23,7 @@ Social media app is a modern social media platform built with Next.js, React, Ta
 
 ## Installation
 
-1. Clone the repository:
+1. **Clone the repository**:
    ```sh
    git clone https://github.com/Ushsishman/social-media-app-next.git
    
