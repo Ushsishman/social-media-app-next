@@ -14,6 +14,9 @@ interface Props {
 }
 
 export default function RootLayout({ children, session }: Props) {
+  {
+    /* MAIN LAYOUT, ALSO AUTH AND REDUX WRAPPERS */
+  }
   return (
     <SessionWrapper session={session}>
       <Provider store={store}>

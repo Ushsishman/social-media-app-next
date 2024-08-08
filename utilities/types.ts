@@ -14,6 +14,7 @@ export type Post = {
   email: string;
   status?: string | null;
   fileName?: string | null;
+  timestamp?: any;
 };
 
 export type UserProfile = {

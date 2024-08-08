@@ -3,11 +3,12 @@ import { writeNewPost } from "../../../utilities/utility";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { storage } from "../../../firebaseConfig";
 import { ref, uploadBytes } from "firebase/storage";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
+import { Oval } from "react-loader-spinner";
 
 const schema = z.object({
   status: z.string(),
@@ -17,7 +18,10 @@ const schema = z.object({
 type CreatePostInputs = z.infer<typeof schema>;
 
 const CreatePost = () => {
-  const { data: session } = useSession();
+  {
+    /* THIS COMPONENT STAYS FOR CREATING POSTS */
+  }
+  const { data: session }: any = useSession();
   const [postState, setPostState] = useState<string>("Post");
   const [imageUpload, setImageUpload] = useState<File | null>(null);
 
@@ -37,6 +41,7 @@ const CreatePost = () => {
 
   const onSubmit = (data: CreatePostInputs) => {
     setPostState("Posting...");
+
     if (imageUpload) {
       uploadFile(imageUpload.name);
     }
@@ -51,19 +56,32 @@ const CreatePost = () => {
     }).finally(() => setPostState("Post"));
   };
   const name = `${session?.user.name}`;
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="w-3/6 flex flex-col mt-8 border-2 border-black/15">
+      className="w-1/2 flex flex-col mt-8 border-2 border-black/15">
       <div className="bg-[#1E293B] min-h-12 flex items-center text-white">
         <div className="ml-4 my-4">
-          <Image
-            width={40}
-            height={40}
-            className="rounded-full"
-            src={`${session?.user.image}`}
-            alt={name}
-          />
+          {session?.user.picture ? (
+            <Image
+              width={40}
+              height={40}
+              className="rounded-full w-auto h-auto"
+              src={`${session.user.picture}`}
+              alt={`${session.user.picture}`}
+            />
+          ) : (
+            <Oval
+              visible={true}
+              height="40"
+              width="40"
+              color="#4fa94d"
+              ariaLabel="oval-loading"
+              wrapperStyle={{}}
+              wrapperClass=""
+            />
+          )}
         </div>
         <h3 className="ml-4">{name.charAt(0).toUpperCase() + name.slice(1)}</h3>
       </div>

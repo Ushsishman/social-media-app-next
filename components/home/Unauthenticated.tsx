@@ -2,8 +2,11 @@
 import Link from "next/link";
 
 const Unauthenticated = () => {
+  {
+    /* UNAUTHENTICATED COMPONENT THAT GOES SIGNIN PAGE */
+  }
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen  overflow-hidden">
+    <div className="flex flex-col items-center justify-center min-h-screen overflow-hidden bg-slate-200">
       <h1 className="text-4xl font-bold mb-6">Welcome to Our Website</h1>
       <p className="text-xl mb-8">
         Get started with us by creating an account.

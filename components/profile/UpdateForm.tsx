@@ -19,6 +19,9 @@ const UpdateForm = ({
   modalIsOpen: boolean;
   setModalIsOpen: Function;
 }) => {
+  {
+    /* THIS IS THE UPDATE FORM IN PROFILE BOX */
+  }
   const { data: session, update } = useSession();
   const closeModal = () => setModalIsOpen(false);
 
@@ -31,24 +34,20 @@ const UpdateForm = ({
   });
 
   const onSubmit = async (data: any) => {
-    try {
-      if (session?.user) {
-        await updateUser(session.user.id, data);
-        await update({
-          ...session,
-          user: {
-            ...session?.user,
-            name: data.name,
-            email: data.email,
-            image: data.image,
-          },
-        });
-      }
-
-      closeModal();
-    } catch (error) {
-      console.error("Failed to update session:", error);
+    if (session?.user) {
+      await updateUser(session.user.id, data);
+      await update({
+        ...session,
+        user: {
+          ...session?.user,
+          name: data.name,
+          email: data.email,
+          image: data.image,
+        },
+      });
     }
+
+    closeModal();
   };
 
   return (

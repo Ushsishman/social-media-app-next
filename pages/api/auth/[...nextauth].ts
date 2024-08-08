@@ -6,6 +6,8 @@ import type { Adapter } from "next-auth/adapters";
 import type { JWT } from "next-auth/jwt";
 import type { Account, Profile, User } from "next-auth";
 
+{/* THIS FILE IS ABOUT NEXT AUTH LIBRARY */}
+
 export const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({

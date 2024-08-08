@@ -1,5 +1,4 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import {
   writeComment,
@@ -18,6 +17,9 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 
 const Post = ({ post }: any) => {
+  {
+    /* SINGLE POST COMPONENT,ALSO CONNECTED WITH WRITE,MAP COMMENTS AND LIKES */
+  }
   const [imgSrc, setImgSrc] = useState("");
   const [comment, setComment] = useState<string>("");
   const [comments, setComments] = useState<object[]>([]);
@@ -25,7 +27,9 @@ const Post = ({ post }: any) => {
   const session = useSession();
 
   const commentHandler = () => {
-    writeComment(comment, post.userId, post.postId);
+    if (session.data) {
+      writeComment(comment, post.userId, post.postId, session.data.user.name);
+    }
   };
 
   useEffect(() => {
@@ -52,9 +56,11 @@ const Post = ({ post }: any) => {
 
   return (
     <div className="bg-white shadow-md rounded-lg p-6 mb-4 max-w-md mx-auto flex flex-col space-y-12">
-      <div className="bg-gray-300 h-12 flex items-center justify-between px-3">
+      <div className="h-12 flex items-center justify-between px-3 border-b border-black">
         <Link href={`/profile/${post.userId}`}>
-          <p className="text-gray-700 font-bold text-xl">{post.username}</p>
+          <p className="text-gray-700 font-bold text-2xl hover:text-gray-900">
+            {post.username}
+          </p>
         </Link>
         {session.data?.user.id == post.userId && (
           <button
@@ -135,7 +141,7 @@ const Post = ({ post }: any) => {
             </div>
           )}
 
-          <p>Beğenme sayısı: {post.likeCount}</p>
+          <p>Likes: {post.likeCount}</p>
         </div>
       </div>
       <div className="mt-4">

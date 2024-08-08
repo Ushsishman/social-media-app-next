@@ -13,8 +13,13 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../lib/store";
 import UpdateForm from "./UpdateForm";
+import { Oval } from "react-loader-spinner";
 
 const BoxHeader = ({ userId, user }: { userId: string; user: UserProfile }) => {
+  {
+    /* THIS COMPONENT BASED ON 2 STATE;IT CHECKS IF THIS IS CURRENT USERS PROFILE,IF IT IS,SHOWS EDIT PROFILE OR DELETE.
+    IF YOU'RE ON SOMEONES PROFILE,IT CHECKS FOR ARE YOU FOLLOWING OR NOT */
+  }
   const { data: session } = useSession();
   const [isFollowing, setIsFollowing] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -33,7 +38,7 @@ const BoxHeader = ({ userId, user }: { userId: string; user: UserProfile }) => {
 
   return (
     <div className="mx-6 py-3 border-b border-black">
-      <h1 className="text-center text-xl">Profile: {userId}</h1>
+      <h1 className="text-center text-2xl">Profile</h1>
       <div className="flex flex-row justify-between items-center mt-4">
         <div className="flex flex-row items-center">
           {user.image ? (
@@ -45,7 +50,15 @@ const BoxHeader = ({ userId, user }: { userId: string; user: UserProfile }) => {
               height={50}
             />
           ) : (
-            <p>Loading...</p>
+            <Oval
+              visible={true}
+              height="80"
+              width="80"
+              color="#4fa94d"
+              ariaLabel="oval-loading"
+              wrapperStyle={{}}
+              wrapperClass=""
+            />
           )}
 
           <div className="flex flex-col">

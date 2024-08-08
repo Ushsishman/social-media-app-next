@@ -2,6 +2,9 @@
 import Follower from "./Follower";
 
 const BoxFollowers = ({ followers }: { followers: string[] }) => {
+  {
+    /* THIS MAPS FOLLOWERS IN PROFILE PAGE */
+  }
   return (
     <div>
       {followers.length > 0 ? (

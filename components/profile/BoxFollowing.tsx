@@ -2,6 +2,9 @@
 import Following from "./Following";
 
 const BoxFollowing = ({ following }: { following: string[] }) => {
+  {
+    /* THIS MAPS FOLLOWS IN PROFILE PAGE */
+  }
   return (
     <div>
       {following.length > 0 ? (

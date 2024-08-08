@@ -6,6 +6,9 @@ import BoxFollowers from "./BoxFollowers";
 import { UserProfile } from "../../utilities/types";
 
 const BoxMain = ({ userId, user }: { userId: string; user: UserProfile }) => {
+  {
+    /* THIS COMPONENT IS CONTENT PART OF PROFILE PAGE,YOU CAN LOOK THAT USERS POSTS,FOLLOWS OR FOLLOWERS */
+  }
   const [currentMain, setCurrentMain] = useState(
     "posts" || "following" || "followers",
   );

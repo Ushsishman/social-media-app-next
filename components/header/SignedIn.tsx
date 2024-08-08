@@ -3,6 +3,9 @@ import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 
 const SignedIn = () => {
+  {
+    /* AUTHENTICATED HEADER SHOWS CURRENT USERS PROFILE AND LOGOUT FUNC */
+  }
   const { data: session } = useSession();
   return (
     <ul className="flex flex-row space-x-4">

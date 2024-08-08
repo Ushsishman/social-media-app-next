@@ -8,6 +8,9 @@ interface Props {
 }
 
 const SessionWrapper = ({ children, session }: Props) => {
+  {
+    /* THIS COMPONENT IS ABOUT NEXT AUTH LIBRARY */
+  }
   return <SessionProvider session={session}>{children}</SessionProvider>;
 };
 

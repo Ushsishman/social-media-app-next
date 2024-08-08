@@ -7,6 +7,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../../../lib/store";
 
 const Feed = () => {
+  {
+    /* THIS COMPONENT MAPS ALL POSTS BASED THEIR TIMESTAMP */
+  }
   const posts = useSelector((state: RootState) => state.posts.posts);
   const dispatch: AppDispatch = useDispatch();
 
@@ -15,10 +18,10 @@ const Feed = () => {
   }, []);
 
   return (
-    <div className="min-h-screen w-1/3 bg-gray-500 py-8">
-      <h1 className="text-3xl font-bold text-center mb-6">Feed</h1>
+    <div className="min-h-screen w-1/2 bg-[#1E293B] py-8">
+      <h1 className="text-3xl font-bold text-white text-center mb-6">Feed</h1>
       {posts.length > 0 ? (
-        posts.map((post, index) => <Post key={index} post={post} />)
+        posts.map((post) => <Post key={post.timestamp} post={post} />)
       ) : (
         <p className="text-center text-black">No posts yet</p>
       )}

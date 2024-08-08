@@ -2,6 +2,9 @@
 import Link from "next/link";
 
 const NewUser = () => {
+  {
+    /* UNAUTHENTICATED HEADER GOES TO SIGNIN PAGE */
+  }
   return (
     <ul className="flex flex-row space-x-4">
       <li>

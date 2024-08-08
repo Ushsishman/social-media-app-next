@@ -6,6 +6,9 @@ import { UserProfile } from "../../utilities/types";
 import Link from "next/link";
 
 const Follower = ({ followerId }: { followerId: string }) => {
+  {
+    /* SINGLE FOLLOWER BOX */
+  }
   const [user, setUser] = useState<UserProfile>();
 
   useEffect(() => {

@@ -9,10 +9,15 @@ import {
   arrayRemove,
   onSnapshot,
   deleteDoc,
+  Timestamp,
+  query,
+  orderBy,
 } from "firebase/firestore";
 import { ref, getDownloadURL } from "firebase/storage";
-import { Post,UpdateProfile } from "./types";
+import { Post, UpdateProfile } from "./types";
 import { storage } from "../firebaseConfig";
+
+{/* THIS FILE BASICALLY DOES WHAT FUNCTIONS SAYS */}
 
 const setFollowFollowerArray = async (userId: string) => {
   const userRef = doc(fireStoreDatabase, `users/${userId}`);
@@ -47,15 +52,25 @@ const writeNewPost = async ({
       postId: postsRef.id,
       likeCount: 0,
       whoLiked: [],
+      timestamp: Timestamp.now().toDate().toISOString(),
     });
   } else {
     alert("You have to add status or file");
   }
 };
 
-const getPosts = ({ dispatch, setPosts }: { dispatch: any; setPosts: any }) => {
+const getPosts = async ({
+  dispatch,
+  setPosts,
+}: {
+  dispatch: any;
+  setPosts: any;
+}) => {
+  const postsCollection = collection(fireStoreDatabase, "posts");
+  const postQuery = query(postsCollection, orderBy("timestamp", "desc"));
+
   const unsubscribe = onSnapshot(
-    collection(fireStoreDatabase, "posts"),
+    postQuery,
     (querySnapshot) => {
       const postArray: object[] = [];
 
@@ -65,27 +80,29 @@ const getPosts = ({ dispatch, setPosts }: { dispatch: any; setPosts: any }) => {
 
       dispatch(setPosts(postArray));
     },
-    (error) => {
-      console.log(error);
-    },
   );
-  return () => unsubscribe();
+ 
 };
 
 const writeComment = async (
   comment: string,
   userId: string,
   postId: string,
+  userName: string | null | undefined,
 ) => {
   const postRef = doc(fireStoreDatabase, `posts/${postId}`);
   const newComment = {
     comment,
     timestamp: new Date().toISOString(),
     userId,
+    userName,
   };
-  await updateDoc(postRef, {
-    comments: arrayUnion(newComment),
-  });
+  if (comment.length > 0) {
+    await updateDoc(postRef, {
+      comments: arrayUnion(newComment),
+    });
+  } 
+  
 };
 
 const getComments = (postId: string, setComments: Function) => {
@@ -97,7 +114,6 @@ const getComments = (postId: string, setComments: Function) => {
         const postData = postSnap.data();
         setComments(postData.comments || []);
       } else {
-        console.log("No such document!");
         setComments([]);
       }
     },
@@ -199,7 +215,8 @@ const checkIfFollowing = async (
   const unsubscribe = onSnapshot(userDocRef, (docSnapshot) => {
     if (docSnapshot.exists()) {
       const userData = docSnapshot.data();
-      setIsFollowing(userData.follows.includes(profileId));
+      const isFollowing = userData.follows.includes(profileId);
+      setIsFollowing(isFollowing);
     } else {
       setIsFollowing(false);
     }
@@ -226,12 +243,12 @@ const deleteUser = async (
 
 const updateUser = async (userId: string, updatedData: UpdateProfile) => {
   const userRef = doc(fireStoreDatabase, `users/${userId}`);
-  
+
   await updateDoc(userRef, {
     name: updatedData.name,
     email: updatedData.email,
     image: updatedData.image,
-  })
+  });
 };
 
 export {

@@ -5,6 +5,9 @@ import { getUser } from "../../../../utilities/utility";
 import { UserProfile } from "../../../../utilities/types";
 
 const page = ({ params }: { params: { userId: string } }) => {
+  {
+    /* THIS IS DYNAMIC ROUTE PAGE OF USERS IDS */
+  }
   const [user, setUser] = useState<UserProfile>({
     email: "",
     emailVerified: null,

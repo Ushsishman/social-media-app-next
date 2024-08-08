@@ -5,6 +5,9 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 
 const Header = () => {
+  {
+    /* THERE ARE TWO DIFFERENT HEADERS BASED ON IF USER AUTHENTICATED OR NOT */
+  }
   const { data: session, status } = useSession();
 
   return (
